@@ -24,21 +24,21 @@ basic_auth = CustomBasicAuth(app)
 def serve_page(page):
 	if os.path.isdir(safe_join(SITE_DIR, page)):
 		# Serve the index page
-		page_file = "%s/index.html" % page
+		page_file = safe_join(page, "index.html")
 	else:
 		# Serve the specific page
 		page_file = "%s.html" % page
 	return send_from_directory(SITE_DIR, page_file)
 
+@app.route('/', defaults={'page': ''})
 @app.route('/<path:page>')
-def hello(filename):
+def public(page):
 	return serve_page(page)
 
 @app.route('/internal', defaults={'page': ''})
 @app.route('/internal/<path:page>')
 @basic_auth.required
-def hello(page):
-	print page
+def internal(page):
 	return serve_page('internal/%s' % page)
 
 if __name__ == '__main__':
