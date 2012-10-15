@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Internal docs
+category: internal
 ---
 
 Internal docs
